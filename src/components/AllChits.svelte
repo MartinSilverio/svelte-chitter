@@ -1,23 +1,38 @@
 <script>
     import Chit from './Chit.svelte';
     import { ChitStore } from '../stores/ChitStore';
-    import { onMount, onDestroy } from 'svelte';
+    import { onMount } from 'svelte';
 
-    let allChits;
-    let chistStoreUnsub = ChitStore.subscribe((data) => {
-        allChits = data;
-    });
+    let loading = true;
 
-    onMount(() => {
+    /* Can use auto-subsription instead of this boilerplate stuff (does unsub for you when destroyed) */
+    // let allChits;
+    // let chistStoreUnsub = ChitStore.subscribe((data) => {
+    //     allChits = data;
+    // });
+
+    onMount(async () => {
         console.log('Component Mounted');
+        await ChitStore.loadChits();
+        loading = false;
     });
-    onDestroy(() => {
-        chistStoreUnsub();
-    });
+    // onDestroy(chistStoreUnsub);
 </script>
 
 <div class="all-chits">
-    {#each allChits as chit (chit.id)}
-        <Chit {...chit} />
-    {/each}
+    {#if loading}
+        <div class="loader">Loading...</div>
+    {:else}
+        {#each $ChitStore as chit (chit.id)}
+            <Chit {...chit} />
+        {/each}
+    {/if}
 </div>
+
+<style>
+    .loader {
+        font-size: x-small;
+        padding-top: 20px;
+        opacity: 0.6;
+    }
+</style>

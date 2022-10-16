@@ -1,33 +1,28 @@
 <script>
     import { UserSessionStore } from '../stores/UserSession';
-    import { ChitStore } from '../stores/ChitStore';
 
-    let newContent;
+    let username;
+    let password;
 
-    function createChit() {
-        console.log(newContent);
-        let newChit = {
-            author: $UserSessionStore.username,
-            handle: '@martin',
-            content: newContent,
-            likes: 0,
-        };
-        ChitStore.addNewChit(newChit);
-        newContent = '';
+    function handleLogin() {
+        console.log(username, password);
+        $UserSessionStore = { username, password };
     }
 </script>
 
-<div class="chit-entry">
-    <textarea bind:value={newContent} placeholder="Say something..." />
-    <button on:click={createChit} class="btn-send fa-solid fa-location-arrow" />
+<div class="login-form">
+    <!-- You can bind it to $UserSessionStore.username, but it would update it in real time, so it messes with the login logic -->
+    <input placeholder="Username" bind:value={username} />
+    <input placeholder="Password" bind:value={password} />
+    <button class="btn-login" on:click={handleLogin}>Let's Go!</button>
 </div>
 
 <style>
-    .chit-entry {
+    .login-form {
         border: 1px solid #62676d22;
         display: flex;
-        flex-direction: row;
-        padding: 10px 20px;
+        flex-direction: column;
+        padding: 20px 20px;
         font-weight: lighter;
         background-color: #282c34;
         box-shadow: 0px 0px 20px #1d2025;
@@ -36,9 +31,11 @@
         align-items: center;
     }
 
-    .chit-entry textarea {
+    .login-form input,
+    input:active {
         display: block;
-        flex-basis: 90%;
+        flex-basis: 20%;
+        margin-bottom: 10px;
         background-color: #282c34;
         color: #dce4ec;
         font-size: smaller;
@@ -46,7 +43,7 @@
         border: 1px solid #dce4ec22;
     }
 
-    .chit-entry .btn-send {
+    .login-form .btn-login {
         flex-basis: 20px;
         text-align: right;
         background-color: inherit;

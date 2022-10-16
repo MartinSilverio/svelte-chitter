@@ -4,6 +4,19 @@
     import Aside from './components/Aside.svelte';
     import NewChit from './components/NewChit.svelte';
     import AllChits from './components/AllChits.svelte';
+    import LoginForm from './components/LoginForm.svelte';
+    import { UserSessionStore } from './stores/UserSession';
+    import { onDestroy } from 'svelte';
+
+    /* Can use auto-subsription instead of this boilerplate stuff (does unsub for you when destroyed) */
+    // let sessionData = {};
+    // const userSessionStoreUnsub = UserSessionStore.subscribe((data) => {
+    //     sessionData = data;
+    // });
+
+    // onDestroy(() => {
+    //     userSessionStoreUnsub();
+    // });
 </script>
 
 <div id="app-container" class="app-container">
@@ -13,8 +26,12 @@
     <section>
         <div class="container">
             <main>
-                <NewChit />
-                <AllChits />
+                {#if !$UserSessionStore.username}
+                    <LoginForm />
+                {:else}
+                    <NewChit />
+                    <AllChits />
+                {/if}
             </main>
 
             <Aside />

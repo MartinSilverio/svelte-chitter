@@ -1,0 +1,18 @@
+{
+  "chits": [
+    {
+      "id": 1,
+      "author": "Martin",
+      "handle": "@martin",
+      "content": "First Chit",
+      "likes": 8
+    },
+    {
+      "id": 2,
+      "author": "Martin",
+      "handle": "@martin",
+      "content": "Second Chit",
+      "likes": 6
+    }
+  ]
+}
